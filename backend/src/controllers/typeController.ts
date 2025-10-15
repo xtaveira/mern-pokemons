@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Type from '../models/Type';
+import Pokemon from '../models/Pokemon';
 
 export const getAllTypes = async (_req: Request, res: Response) => {
     try {
@@ -56,11 +57,20 @@ export const deleteType = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const deletedType = await Type.findByIdAndDelete(id);
-
-        if (!deletedType) {
+        const type = await Type.findById(id);
+        if (!type) {
             return res.status(404).json({ message: 'Tipo não encontrado.' });
         }
+
+        const pokemonsUsingType = await Pokemon.countDocuments({ tipo: id });
+
+        if (pokemonsUsingType > 0) {
+            return res.status(400).json({
+                message: `Não é possível excluir este tipo. Existem ${pokemonsUsingType} pokémon(s) usando este tipo como tipo principal.`
+            });
+        }
+
+        await Type.findByIdAndDelete(id);
 
         res.status(204).send();
     } catch (error) {
