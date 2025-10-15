@@ -12,8 +12,8 @@ export const getAllPokemons = async (req: Request, res: Response) => {
         if (tipo) filter.tipo = tipo;
 
         const pokemons = await Pokemon.find(filter)
-            .populate('tipo', 'nome codigo -_id')
-            .populate('tipoSecundario', 'nome codigo -_id')
+            .populate('tipo', 'nome codigo')
+            .populate('tipoSecundario', 'nome codigo')
             .sort({ codigo: 'asc' });
 
         res.status(200).json(pokemons);
