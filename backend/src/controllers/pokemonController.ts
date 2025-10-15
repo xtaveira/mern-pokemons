@@ -9,7 +9,12 @@ export const getAllPokemons = async (req: Request, res: Response) => {
         const filter: FilterQuery<IPokemon> = {};
 
         if (nome) filter.nome = { $regex: nome, $options: 'i' };
-        if (tipo) filter.tipo = tipo;
+        if (tipo) {
+            filter.$or = [
+                { tipo: tipo },
+                { tipoSecundario: tipo }
+            ];
+        }
 
         const pokemons = await Pokemon.find(filter)
             .populate('tipo', 'nome codigo')
