@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# Frontend Pokémon - MERN Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web para gerenciamento de Pokémons e Tipos, construída com React, TypeScript e Vite.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Funcionalidades
 
-## React Compiler
+### 🔥 Pokémons
+- ✅ **Listagem** com tabela responsiva
+- ✅ **Busca por nome ou código** (com debounce de 500ms - processada no backend)
+- ✅ **Filtro por tipo** (principal ou secundário - processado no backend)
+- ✅ **Criar** novo pokémon com Sheet lateral
+- ✅ **Editar** pokémon existente
+- ✅ **Excluir** com confirmação (AlertDialog)
+- ✅ **Validação**: Impede códigos duplicados (tratado pelo backend)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📦 Tipos
+- ✅ **Listagem** com tabela responsiva
+- ✅ **Busca por nome ou código** (client-side)
+- ✅ **Criar** novo tipo com Sheet lateral
+- ✅ **Editar** tipo existente
+- ✅ **Excluir** com confirmação (AlertDialog)
+- ✅ **Validação**: Impede códigos duplicados (tratado pelo backend)
+- ✅ **Proteção**: Não permite excluir tipos em uso por pokémons (tratado pelo backend)
 
-## Expanding the ESLint configuration
+### 🎨 Interface
+- ✅ **Navbar** com alternância entre Pokémons e Tipos
+- ✅ **Design responsivo** (mobile-first)
+- ✅ **Notificações toast** para feedback (Sonner)
+- ✅ **Formulários modais** (shadcn/ui Sheet)
+- ✅ **Confirmação de exclusão** (shadcn/ui AlertDialog)
+- ✅ **Componentes estilizados** com Tailwind CSS
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tecnologias
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **React 19** - Biblioteca UI
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool
+- **Tailwind CSS 4** - Estilização
+- **shadcn/ui** - Componentes (Sheet, AlertDialog, Select, etc)
+- **Sonner** - Toast notifications
+- **Lucide React** - Ícones
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📂 Estrutura
+
+```
+src/
+├── components/        # Componentes React
+│   ├── Navbar.tsx
+│   ├── PokemonTable.tsx
+│   ├── TypeTable.tsx
+│   ├── PokemonForm.tsx
+│   ├── TypeForm.tsx
+│   ├── DeleteConfirmDialog.tsx
+│   └── ui/           # Componentes shadcn/ui
+├── hooks/            # Custom hooks
+│   ├── usePokemons.ts
+│   ├── useTypes.ts
+│   └── useDebounce.ts
+├── services/         # Comunicação com API
+│   ├── api.ts
+│   ├── pokemonService.ts
+│   └── typeService.ts
+├── types/            # Definições TypeScript
+└── App.tsx          # Componente principal
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Executar
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Instalar dependências
+npm install
+
+# Desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+
+---
+
+## 🔗 Integração com Backend
+
+A aplicação consome a API REST em `http://localhost:5000/api`
+
+**Processamento no Backend:**
+- 🔍 Busca e filtros de pokémons (nome, tipo)
+- ✅ Validação de códigos duplicados
+- 🛡️ Proteção contra exclusão de tipos em uso
+- 📊 Ordenação por código
+
+Configure a URL da API em `.env`:
+```env
+VITE_API_URL=http://localhost:5000/api
 ```
+
+---
+
+## ✨ Destaques Técnicos
+
+- **Debounce na busca**: Reduz requisições desnecessárias (500ms)
+- **Filtros server-side**: Performance otimizada
+- **Error handling**: Tratamento de erros com mensagens específicas
+- **TypeScript strict**: Segurança de tipos completa
+- **Componentização**: Código modular e reutilizável
+- **Responsive design**: Mobile, tablet e desktop
